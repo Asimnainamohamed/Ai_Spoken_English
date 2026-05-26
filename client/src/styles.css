@@ -196,6 +196,30 @@ p {
   max-width: 490px;
 }
 
+.install-control {
+  margin-top: 29px;
+}
+
+.install-button {
+  background: var(--orange);
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 20px;
+}
+
+.install-button:hover {
+  background: #db8b43;
+}
+
+.install-help {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  margin: 12px 0 0;
+  max-width: 350px;
+}
+
 .auth-card {
   align-self: center;
   background: var(--cream);
@@ -347,6 +371,19 @@ p {
   gap: 10px;
   margin-top: auto;
   padding: 18px 10px 0;
+}
+
+.sidebar-footer .install-control {
+  margin: 0 0 8px;
+}
+
+.sidebar-footer .install-button {
+  width: 100%;
+}
+
+.sidebar-footer .install-help {
+  font-size: 12px;
+  margin-top: 8px;
 }
 
 .sidebar-footer small {
@@ -948,6 +985,19 @@ p {
     display: flex;
     margin-top: 15px;
     padding: 14px 0 0;
+  }
+
+  .sidebar-footer .install-control {
+    margin: 0;
+  }
+
+  .sidebar-footer .install-button {
+    white-space: nowrap;
+    width: auto;
+  }
+
+  .sidebar-footer .install-help {
+    display: none;
   }
 
   .sidebar-footer span {

@@ -1,0 +1,40 @@
+{
+  "id": "/",
+  "name": "AI Spoken English Tutor",
+  "short_name": "Spoken Tutor",
+  "description": "Practice spoken English with an AI teacher, voice conversation, roleplay, and daily lessons.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f7f2",
+  "theme_color": "#145b55",
+  "categories": ["education", "productivity"],
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

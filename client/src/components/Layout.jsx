@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import InstallAppButton from "./InstallAppButton.jsx";
 
 const links = [
   { path: "/", label: "Dashboard", end: true },
@@ -42,6 +43,7 @@ export default function Layout() {
           ))}
         </nav>
         <div className="sidebar-footer">
+          <InstallAppButton compact />
           <small>Signed in as</small>
           <span title={user?.email}>{user?.email}</span>
           <button className="ghost-button" onClick={handleSignOut} type="button">
@@ -55,4 +57,3 @@ export default function Layout() {
     </div>
   );
 }
-

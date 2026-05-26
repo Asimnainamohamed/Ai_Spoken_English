@@ -10,6 +10,7 @@ A full-stack spoken English learning app for Tamil students and English beginner
 - AI: Groq API with `llama-3.3-70b-versatile`
 - Voice input: Browser Web Speech API
 - Voice output: Browser `speechSynthesis` API
+- Installable app: Progressive Web App (PWA) for Android home screens
 
 ## Folder Structure
 
@@ -19,12 +20,17 @@ AI Spoken English Tutor/
 |   |-- .env.example
 |   |-- index.html
 |   |-- package.json
+|   |-- public/
+|   |   |-- icons/
+|   |   |-- manifest.webmanifest
+|   |   `-- sw.js
 |   |-- vite.config.js
 |   `-- src/
 |       |-- App.jsx
 |       |-- main.jsx
 |       |-- styles.css
 |       |-- components/
+|       |   |-- InstallAppButton.jsx
 |       |   |-- Layout.jsx
 |       |   |-- PageHeader.jsx
 |       |   `-- PracticeChat.jsx
@@ -34,6 +40,7 @@ AI Spoken English Tutor/
 |       |   `-- useSpeechRecognition.js
 |       |-- lib/
 |       |   |-- api.js
+|       |   |-- registerServiceWorker.js
 |       |   |-- speech.js
 |       |   `-- supabase.js
 |       `-- pages/
@@ -159,6 +166,16 @@ All application API routes require a signed-in user's Supabase access token in t
 - Microphone transcription depends on browser Web Speech API support. Chrome and Edge generally provide the best support.
 - The speaking page sends recognised speech directly to the AI teacher.
 - The `Speak reply` button reads an AI response aloud through the browser speech synthesis engine.
+
+## Install on Android
+
+After deploying the frontend over HTTPS:
+
+1. Open the deployed frontend URL in Chrome on Android.
+2. Tap the in-app **Install app** button, or tap the Chrome menu and choose **Install app**.
+3. After installation, find **Spoken Tutor** on the Android home screen or in the app drawer.
+
+The frontend includes a PWA manifest, 192px and 512px standard and maskable Android icons, standalone display mode, and a service worker that keeps the application shell available offline. AI, login, and progress features still require an internet connection.
 
 ## Deploy on Vercel
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import InstallAppButton from "../components/InstallAppButton.jsx";
 import PasswordField from "../components/PasswordField.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { supabase } from "../lib/supabase.js";
@@ -47,6 +48,7 @@ export default function Login() {
           Friendly corrections, Tamil and Tanglish support, voice practice, and daily
           lessons built for beginners.
         </p>
+        <InstallAppButton />
       </section>
       <section className="auth-card">
         <h2>Welcome back</h2>
