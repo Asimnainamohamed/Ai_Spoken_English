@@ -652,10 +652,8 @@ p {
   border-radius: 12px;
   color: #994d18;
   font-weight: 600;
-  min-width: 112px;
+  min-width: 84px;
   padding: 12px 13px;
-  touch-action: none;
-  user-select: none;
 }
 
 .mic-button.listening {

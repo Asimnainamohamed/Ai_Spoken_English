@@ -15,7 +15,6 @@ export default function PracticeChat({
   speechLanguage = "en-IN",
   autoSendSpeech = false,
   autoSpeakReply = false,
-  holdToSpeak = false,
   starterPrompt,
 }) {
   const [messages, setMessages] = useState([teacherWelcome(welcomeMessage)]);
@@ -88,9 +87,8 @@ export default function PracticeChat({
     }
   }
 
-  const { listening, startListening, stopListening, supported } = useSpeechRecognition({
+  const { listening, startListening, supported } = useSpeechRecognition({
     language: speechLanguage,
-    holdToSpeak,
     onTranscript: (transcript) => {
       setDraft(transcript);
       setError("");
@@ -115,43 +113,6 @@ export default function PracticeChat({
       event.preventDefault();
       submitMessage(draft);
     }
-  }
-
-  function startVoiceHold(event) {
-    if (!holdToSpeak) {
-      return;
-    }
-
-    event.preventDefault();
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    startListening();
-  }
-
-  function stopVoiceHold(event) {
-    if (!holdToSpeak) {
-      return;
-    }
-
-    event.preventDefault();
-    stopListening();
-  }
-
-  function handleMicKeyDown(event) {
-    if (!holdToSpeak || event.repeat || (event.key !== " " && event.key !== "Enter")) {
-      return;
-    }
-
-    event.preventDefault();
-    startListening();
-  }
-
-  function handleMicKeyUp(event) {
-    if (!holdToSpeak || (event.key !== " " && event.key !== "Enter")) {
-      return;
-    }
-
-    event.preventDefault();
-    stopListening();
   }
 
   function spokenText(text) {
@@ -207,22 +168,11 @@ export default function PracticeChat({
             <button
               className={`mic-button ${listening ? "listening" : ""}`}
               disabled={!supported || sending}
-              onClick={holdToSpeak ? (event) => event.preventDefault() : startListening}
-              onKeyDown={handleMicKeyDown}
-              onKeyUp={handleMicKeyUp}
-              onPointerCancel={stopVoiceHold}
-              onPointerDown={startVoiceHold}
-              onPointerUp={stopVoiceHold}
-              title={
-                supported
-                  ? holdToSpeak
-                    ? "Hold while speaking, then release to send"
-                    : "Use microphone"
-                  : "Speech recognition is not supported in this browser"
-              }
+              onClick={startListening}
+              title={supported ? "Tap to start speaking" : "Speech recognition is not supported in this browser"}
               type="button"
             >
-              {listening ? "Listening..." : holdToSpeak ? "Hold to speak" : "Mic"}
+              {listening ? "Listening..." : "Speak"}
             </button>
           )}
           <button className="primary-button" disabled={sending || !draft.trim()} type="submit">
@@ -233,8 +183,8 @@ export default function PracticeChat({
       {enableVoice && !supported && (
         <p className="support-note">Voice input is unavailable in this browser. You can type instead.</p>
       )}
-      {enableVoice && holdToSpeak && supported && (
-        <p className="support-note">Hold the microphone button while speaking. Release it to send your message.</p>
+      {enableVoice && supported && (
+        <p className="support-note">Tap Speak, say your message, and pause when you are finished.</p>
       )}
     </section>
   );

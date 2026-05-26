@@ -20,14 +20,11 @@ export function useSpeechRecognition({
   onTranscript,
   onComplete,
   onError,
-  holdToSpeak = false,
 }) {
   const [supported, setSupported] = useState(true);
   const [listening, setListening] = useState(false);
   const callbacksRef = useRef({ onTranscript, onComplete, onError });
   const recognitionRef = useRef(null);
-  const heldRef = useRef(false);
-  const stoppedByUserRef = useRef(false);
   const finalTranscriptRef = useRef("");
   const displayedTranscriptRef = useRef("");
 
@@ -44,9 +41,9 @@ export function useSpeechRecognition({
     setSupported(true);
     const recognition = new SpeechRecognition();
     recognition.lang = language;
-    recognition.interimResults = holdToSpeak;
+    recognition.interimResults = true;
     recognition.maxAlternatives = 1;
-    recognition.continuous = holdToSpeak;
+    recognition.continuous = false;
 
     recognition.onresult = (event) => {
       let finalTranscript = finalTranscriptRef.current;
@@ -68,49 +65,29 @@ export function useSpeechRecognition({
     };
 
     recognition.onerror = (event) => {
-      if (event.error === "no-speech" && heldRef.current) {
-        return;
-      }
-
-      heldRef.current = false;
       setListening(false);
       callbacksRef.current.onError?.(
         event.error === "no-speech"
-          ? "No speech heard. Hold the Mic button while you speak, then release it."
+          ? "No speech heard. Tap Speak and try again."
           : microphoneError(event.error),
       );
     };
 
     recognition.onend = () => {
-      if (holdToSpeak && heldRef.current) {
-        try {
-          recognition.start();
-          return;
-        } catch (_error) {
-          heldRef.current = false;
-        }
-      }
-
       setListening(false);
       const transcript = cleanTranscript(displayedTranscriptRef.current);
       if (transcript) {
         callbacksRef.current.onComplete?.(transcript);
-      } else if (holdToSpeak && stoppedByUserRef.current) {
-        callbacksRef.current.onError?.(
-          "No speech heard. Hold the Mic button while you speak, then release it.",
-        );
       }
-      stoppedByUserRef.current = false;
     };
 
     recognitionRef.current = recognition;
 
     return () => {
-      heldRef.current = false;
       recognition.abort();
       recognitionRef.current = null;
     };
-  }, [holdToSpeak, language]);
+  }, [language]);
 
   function startListening() {
     if (!recognitionRef.current || listening) {
@@ -119,8 +96,6 @@ export function useSpeechRecognition({
 
     finalTranscriptRef.current = "";
     displayedTranscriptRef.current = "";
-    heldRef.current = holdToSpeak;
-    stoppedByUserRef.current = false;
     callbacksRef.current.onTranscript?.("");
 
     try {
@@ -131,15 +106,5 @@ export function useSpeechRecognition({
     }
   }
 
-  function stopListening() {
-    if (!recognitionRef.current || !listening) {
-      return;
-    }
-
-    heldRef.current = false;
-    stoppedByUserRef.current = true;
-    recognitionRef.current.stop();
-  }
-
-  return { listening, startListening, stopListening, supported };
+  return { listening, startListening, supported };
 }

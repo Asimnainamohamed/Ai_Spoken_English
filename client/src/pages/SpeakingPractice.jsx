@@ -19,19 +19,18 @@ export default function SpeakingPractice() {
     <>
       <PageHeader
         action={action}
-        subtitle="Hold the microphone while you speak, then release. Your AI partner replies aloud and helps you improve."
+        subtitle="Tap the microphone and speak. When you finish, your AI partner replies aloud and helps you improve."
         title="Speaking Practice"
       />
       <PracticeChat
         autoSpeakReply
         autoSendSpeech
         enableVoice
-        holdToSpeak
         key={language}
         mode="speaking"
         placeholder="You can also type a sentence..."
         speechLanguage={language}
-        welcomeMessage="Hello! Hold the microphone and talk to me. I will reply like a friendly speaking partner and gently correct important mistakes."
+        welcomeMessage="Hello! Tap the microphone and talk to me. I will reply like a friendly speaking partner and gently correct important mistakes."
       />
     </>
   );
