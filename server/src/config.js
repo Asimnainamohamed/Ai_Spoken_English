@@ -20,7 +20,7 @@ export function assertServerConfiguration(keys = requiredVariables) {
 
 export const config = {
   port: Number(process.env.PORT) || 5000,
-  clientUrl: process.env.CLIENT_URL || "http://localhost:5173",
+  clientUrl: (process.env.CLIENT_URL || "http://localhost:5173").replace(/\/+$/, ""),
   groqApiKey: process.env.GROQ_API_KEY,
   groqModel: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
   supabaseUrl: process.env.SUPABASE_URL,
