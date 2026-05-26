@@ -1,4 +1,4 @@
-import { config } from "../config.js";
+import { assertServerConfiguration, config } from "../config.js";
 
 const teacherPrompt = `You are an AI Spoken English Teacher for Tamil students and Indian beginners.
 The user may type in English, Tamil, or Tanglish.
@@ -75,6 +75,8 @@ function validHistory(history) {
 }
 
 export async function getTeacherReply(message, mode = "chat", history = []) {
+  assertServerConfiguration(["GROQ_API_KEY"]);
+
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {

@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "../lib/supabase.js";
+import { getSupabaseAdmin } from "../lib/supabase.js";
 
 export async function requireAuth(req, res, next) {
   try {
@@ -11,6 +11,7 @@ export async function requireAuth(req, res, next) {
       return res.status(401).json({ error: "Please sign in to continue." });
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const {
       data: { user },
       error,
@@ -21,6 +22,7 @@ export async function requireAuth(req, res, next) {
     }
 
     req.user = user;
+    req.supabaseAdmin = supabaseAdmin;
     return next();
   } catch (error) {
     return next(error);

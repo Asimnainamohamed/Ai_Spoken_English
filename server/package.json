@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --use-system-ca --watch src/index.js",
-    "start": "node --use-system-ca src/index.js"
+    "dev": "node --use-system-ca --watch src/local.js",
+    "start": "node --use-system-ca src/local.js"
   },
   "engines": {
     "node": ">=22.15.0"

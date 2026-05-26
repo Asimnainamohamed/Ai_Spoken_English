@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/requireAuth.js";
-import { supabaseAdmin } from "../lib/supabase.js";
 import { getTeacherReply } from "../services/groq.js";
 
 const router = Router();
@@ -63,6 +62,7 @@ router.post("/ai-tutor", async (req, res) => {
 router.post("/save-practice", asyncHandler(async (req, res) => {
   const { mode = "chat", userInput, aiReply } = req.body;
   const normalizedMode = String(mode).trim();
+  const supabaseAdmin = req.supabaseAdmin;
 
   if (!userInput || !aiReply) {
     return res.status(400).json({ error: "Practice input and reply are required." });
@@ -93,6 +93,7 @@ router.post("/save-practice", asyncHandler(async (req, res) => {
 }));
 
 router.get("/daily-lessons", asyncHandler(async (req, res) => {
+  const supabaseAdmin = req.supabaseAdmin;
   const [{ data: lessons, error: lessonError }, { data: progress, error: progressError }] =
     await Promise.all([
       supabaseAdmin.from("daily_lessons").select("*").order("day_number"),
@@ -117,6 +118,7 @@ router.get("/daily-lessons", asyncHandler(async (req, res) => {
 router.post("/complete-lesson", asyncHandler(async (req, res) => {
   const { lessonId, score } = req.body;
   const numericScore = Number(score);
+  const supabaseAdmin = req.supabaseAdmin;
 
   if (!lessonId || !Number.isInteger(numericScore) || numericScore < 0 || numericScore > 100) {
     return res.status(400).json({ error: "A valid lesson and score are required." });
@@ -146,6 +148,7 @@ router.post("/complete-lesson", asyncHandler(async (req, res) => {
 }));
 
 router.get("/progress", asyncHandler(async (req, res) => {
+  const supabaseAdmin = req.supabaseAdmin;
   const [{ data: practice, error: practiceError }, { data: lessonProgress, error: lessonError }] =
     await Promise.all([
       supabaseAdmin

@@ -51,6 +51,7 @@ AI Spoken English Tutor/
 |   `-- src/
 |       |-- config.js
 |       |-- index.js
+|       |-- local.js
 |       |-- lib/supabase.js
 |       |-- middleware/requireAuth.js
 |       |-- routes/api.js
@@ -167,3 +168,4 @@ Deploy this workspace as two Vercel projects:
 2. Deploy `client` as the Vite frontend project. Add the client environment variables from `client/.env`, changing `VITE_API_BASE_URL` to `https://YOUR-API-PROJECT.vercel.app/api`.
 
 The frontend contains a `vercel.json` SPA rewrite so dashboard, speaking, lessons, and progress links continue to work when opened directly on the hosted site.
+The Express entry point exports the application for Vercel functions; local `npm run dev` starts it through `server/src/local.js`.

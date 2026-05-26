@@ -6,12 +6,16 @@ const requiredVariables = [
   "SUPABASE_SERVICE_ROLE_KEY",
 ];
 
-const missingVariables = requiredVariables.filter((key) => !process.env[key]);
+export function missingServerVariables(keys = requiredVariables) {
+  return keys.filter((key) => !process.env[key]);
+}
 
-if (missingVariables.length > 0) {
-  throw new Error(
-    `Missing server environment variables: ${missingVariables.join(", ")}. Copy server/.env.example to server/.env and add your credentials.`,
-  );
+export function assertServerConfiguration(keys = requiredVariables) {
+  const missingVariables = missingServerVariables(keys);
+
+  if (missingVariables.length > 0) {
+    throw new Error(`Missing server environment variables: ${missingVariables.join(", ")}.`);
+  }
 }
 
 export const config = {
@@ -22,4 +26,3 @@ export const config = {
   supabaseUrl: process.env.SUPABASE_URL,
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
 };
-
