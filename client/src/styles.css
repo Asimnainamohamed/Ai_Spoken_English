@@ -97,6 +97,11 @@ p {
   width: 100%;
 }
 
+.auth-callback-link {
+  display: block;
+  text-align: center;
+}
+
 .secondary-button {
   background: var(--green-100);
   color: var(--green-900);

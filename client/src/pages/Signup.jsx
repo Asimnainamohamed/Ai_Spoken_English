@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import InstallAppButton from "../components/InstallAppButton.jsx";
 import PasswordField from "../components/PasswordField.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { getAuthCallbackUrl } from "../lib/authRedirect.js";
 import { supabase } from "../lib/supabase.js";
 
 export default function Signup() {
@@ -26,6 +27,9 @@ export default function Signup() {
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: getAuthCallbackUrl(),
+      },
     });
 
     setLoading(false);
@@ -37,7 +41,7 @@ export default function Signup() {
     setMessage(
       data.session
         ? "Account created. You can begin practising now."
-        : "Account created. Check your email to confirm your account, then sign in.",
+        : "Account created. Open the confirmation email to return here and start learning.",
     );
   }
 
