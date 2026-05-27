@@ -1,6 +1,6 @@
 :root {
   color: #152b2b;
-  background: #171918;
+  background: #f8f8f3;
   font-family: "Poppins", "Noto Sans Tamil", "Segoe UI", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,7 +25,7 @@
 }
 
 body {
-  background: #171918;
+  background: #f8f8f3;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
@@ -341,16 +341,12 @@ h3 {
 
 .app-shell {
   background: #f8f8f3;
-  border-radius: 10px;
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.3);
   display: grid;
   grid-template-columns: 221px minmax(0, 1fr);
-  height: calc(100vh - clamp(16px, 3vh, 32px));
-  margin: clamp(8px, 1.5vh, 16px) auto;
-  max-width: 1120px;
-  min-height: 580px;
+  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
-  width: min(1120px, calc(100vw - clamp(32px, 16vw, 140px)));
+  width: 100%;
 }
 
 .sidebar {
