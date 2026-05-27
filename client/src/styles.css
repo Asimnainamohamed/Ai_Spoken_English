@@ -1,10 +1,10 @@
 :root {
   color: #152b2b;
   background: #f5f7f2;
-  font-family: "Manrope", "Noto Sans Tamil", "Segoe UI", Arial, sans-serif;
+  font-family: "Poppins", "Noto Sans Tamil", "Segoe UI", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --font-display: "Manrope", "Noto Sans Tamil", "Segoe UI", Arial, sans-serif;
+  --font-display: "Poppins", "Noto Sans Tamil", "Segoe UI", Arial, sans-serif;
   --green-900: #103e3a;
   --green-800: #145b55;
   --green-700: #1b7268;
