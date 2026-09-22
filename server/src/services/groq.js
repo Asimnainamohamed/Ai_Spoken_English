@@ -75,7 +75,29 @@ function validHistory(history) {
 }
 
 export async function getTeacherReply(message, mode = "chat", history = []) {
-  assertServerConfiguration(["GROQ_API_KEY"]);
+  const groqApiKey = config.groqApiKey?.trim();
+  const hasGroqKey = Boolean(groqApiKey) && !/^your_|^demo-|^replace-me/i.test(groqApiKey);
+
+  if (!hasGroqKey) {
+    console.warn("Groq API key is not configured. Falling back to demo teacher response.");
+    return [
+      "Correct Sentence:",
+      message.trim(),
+      "",
+      "Explanation:",
+      "Your sentence is understandable, and I can help improve it for clear natural English.",
+      "",
+      "Better Sentence:",
+      "I want to speak clearly in meetings.",
+      "",
+      "Practice:",
+      "1. I want to speak confidently in class.",
+      "2. I want to improve my English speaking skills.",
+      "",
+      "Next Question:",
+      "Would you like a short practice sentence in a real-life situation?",
+    ].join("\n");
+  }
 
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",

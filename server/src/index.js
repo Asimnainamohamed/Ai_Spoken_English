@@ -1,13 +1,20 @@
 import cors from "cors";
 import express from "express";
-import { config, missingServerVariables } from "./config.js";
+import { config, isAllowedLocalOrigin, missingServerVariables } from "./config.js";
 import apiRoutes from "./routes/api.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin(origin, callback) {
+      if (!origin || origin === "null" || origin === "file://") {
+        return callback(null, true);
+      }
+
+      return callback(null, isAllowedLocalOrigin(origin));
+    },
+    credentials: true,
   }),
 );
 app.use(express.json({ limit: "20kb" }));
