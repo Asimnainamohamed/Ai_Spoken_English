@@ -1,6 +1,6 @@
 import { supabase } from "./supabase.js";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "/api";
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/+$/, "");
 
 async function authenticatedFetch(path, options = {}) {
   if (!supabase) {
@@ -15,22 +15,38 @@ async function authenticatedFetch(path, options = {}) {
     throw new Error("Please sign in again to continue.");
   }
 
-  const response = await fetch(`${apiBaseUrl}${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${session.access_token}`,
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  });
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const requestUrl = `${apiBaseUrl}${normalizedPath}`;
 
-  const payload = await response.json().catch(() => ({}));
+  try {
+    const response = await fetch(requestUrl, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error(payload.error || "Request failed. Please try again.");
+    const contentType = response.headers.get("content-type") || "";
+    const payload = contentType.includes("application/json")
+      ? await response.json().catch(() => ({}))
+      : {};
+
+    if (!response.ok) {
+      throw new Error(payload.error || `Request failed (${response.status}). Please try again.`);
+    }
+
+    return payload;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(
+        `Could not reach the AI tutor server. Make sure the backend is running and ${apiBaseUrl} is available.`,
+      );
+    }
+
+    throw error;
   }
-
-  return payload;
 }
 
 export function sendTutorMessage(message, mode, history = []) {
