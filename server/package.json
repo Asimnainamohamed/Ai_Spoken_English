@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --use-system-ca --watch src/local.js",
+    "build": "node -e \"console.log('Server build step skipped; runtime is handled by Vercel')\"",
     "start": "node --use-system-ca src/local.js"
   },
   "engines": {
